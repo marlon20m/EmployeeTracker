@@ -72,12 +72,27 @@ function runSearch() {
 function addEmployee() {
     inquirer.prompt([{
         type: "input",
-        message: "What employee do you want to add?",
-        name: "worker"
-
-    }]).then(function (answer) {
-        connection.query("insert into employee(name) values(?)", answer.worker, function (error) {
-            console.log("employee added")
+        message: "What is the employee's first name?",
+        name: "firstname"
+    },
+    {
+        type: "input",
+        message: "What is the employee's last name?",
+        name: "lastname"
+    },
+    {
+        type: "input",
+        message: "What is the employees's role?",
+        name: "roleid"
+    },
+    {
+        type: "input",
+        message: "What is the manager's id?",
+        name: "managername"
+    }
+    ]).then(function (answer) {
+        connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) values(?,?,?,?)", [answer.firstname, answer.lastname, answer.roleid, answer.managername], function (err, data) {
+            if (err) throw err;
             runSearch()
         })
     })
